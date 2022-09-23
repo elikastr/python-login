@@ -3,7 +3,9 @@ import os
 import tkinter as tk
 from tkinter import ttk
 
+
 JSON_FILE_PATH = 'luxuriant.json'
+
 
 root = tk.Tk()
 root.title('Welcome to Luxuriant')
@@ -31,18 +33,21 @@ logo_label.pack()
 
 # name entry
 ttk.Label(root, text="Full Name:").pack()
+
 name = tk.StringVar()
 name_entry = ttk.Entry(root, textvariable=name)
 name_entry.pack()
 
 # address entry
 ttk.Label(root, text="Address:").pack()
+
 address = tk.StringVar()
 address_entry = ttk.Entry(root, textvariable=address)
 address_entry.pack()
 
 # preferable ant radio buttons
 ttk.Label(text="Preferable Ant:").pack()
+
 selected_ant = tk.StringVar()
 ants = ['argentine',
         'black',
@@ -69,6 +74,7 @@ radio_buttons.append(ttk.Radiobutton())
 
 # tuxedo combobox
 ttk.Label(root, text="Tuxedo Type:").pack()
+
 selected_tux = tk.StringVar()
 
 combobox = ttk.Combobox(root, textvariable=selected_tux, state='readonly')
@@ -77,6 +83,7 @@ combobox.pack()
 
 # number of ants entry
 ttk.Label(text="Number of Ants:").pack()
+
 ants_num = tk.StringVar(value=0)
 spinbox = ttk.Spinbox(
     root,
@@ -89,7 +96,6 @@ spinbox.pack()
 
 
 def clear_fields():
-    print(name.get(), address.get(), selected_ant.get(), int(selected_tux.get()[0]), int(ants_num.get()))
     name_entry.delete(0, 'end')
     address_entry.delete(0, 'end')
     selected_ant.set(0)
@@ -107,11 +113,14 @@ def write_to_json():
     }
     
     a = []
+
     if not os.path.isfile(JSON_FILE_PATH):
+        # if file doesn't exist, create new file with the data
         a.append(data)
         with open(JSON_FILE_PATH, mode='w') as f:
             f.write(json.dumps(a, indent=4))
     else:
+        # otherwise, read the data from file and append new data to it
         with open(JSON_FILE_PATH) as feedsjson:
             feeds = json.load(feedsjson)
         
@@ -122,7 +131,7 @@ def write_to_json():
     clear_fields()
 
 
-# check if all fields are filled
+# check if all fields are filled and valid
 def check_fields():
     if not (name.get() and address.get() and selected_ant.get() and selected_tux.get() and ants_num.get()):
         return "Please fill out all entries"
@@ -132,9 +141,8 @@ def check_fields():
 
 
 message_label = ttk.Label(root)
-success_label = ttk.Label(root, text="You are successfully registered!")
 
-# if all fields are valid, they are cleared and a success message is shown
+# if all fields are valid, the data is saved and a success message is shown
 # otherwise, an error message is shown
 def send():
     message = check_fields()
