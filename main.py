@@ -1,3 +1,4 @@
+from re import A
 import tkinter as tk
 from tkinter import ttk
 
@@ -25,45 +26,72 @@ logo_label = ttk.Label(
 logo_label.pack()
 
 
-# store text inputs
+# name entry
+ttk.Label(root, text="Full Name:").pack()
 name = tk.StringVar()
-address = tk.StringVar()
-
-# name 
-name_label = ttk.Label(root, text="Full Name:")
-name_label.pack()
-
 name_entry = ttk.Entry(root, textvariable=name)
 name_entry.pack()
 
-# address 
-address_label = ttk.Label(root, text="Address:")
-address_label.pack()
-
+# address entry
+ttk.Label(root, text="Address:").pack()
+address = tk.StringVar()
 address_entry = ttk.Entry(root, textvariable=address)
 address_entry.pack()
 
-def clear_entries():
+# preferable ant radio buttons
+ttk.Label(text="Preferable Ant:").pack()
+selected_ant = tk.StringVar()
+ants = ['argentine',
+        'black',
+        'carpenter', 
+        'fire']
+ant_imgs = [tk.PhotoImage(file='./assets/argentine.png'),
+            tk.PhotoImage(file='./assets/black.png'),
+            tk.PhotoImage(file='./assets/carpenter.png'),
+            tk.PhotoImage(file='./assets/fire.png')]
+
+radio_buttons = []
+for i in range(len(ants)):
+    radio_buttons.append(ttk.Radiobutton(
+        root,
+        image=ant_imgs[i],
+        value=ants[i],
+        variable=selected_ant
+    ))
+    radio_buttons[i].pack()
+radio_buttons.append(ttk.Radiobutton())
+
+def clear_fields():
+    print(name.get(), address.get(), selected_ant.get())
     name_entry.delete(0, 'end')
     address_entry.delete(0, 'end')
+    selected_ant.set(0)
+
+# check if all fields are filled
+def check_fields():
+    if not name.get(): return False
+    if not address.get(): return False
+    if not selected_ant.get(): return False
+    return True
 
 
-# send button
 error_label = ttk.Label(root, text="Please fill out all entries")
 success_label = ttk.Label(root, text="You are successfully registered!")
 
+# if all fields are filled, they are cleared and a success message is shown
+# otherwise, an error message is shown
 def send():
-    if not (name.get() and address.get()):
+    if not check_fields():
         error_label.pack()
     else:
         error_label.pack_forget()
-        clear_entries()
+        clear_fields()
         success_label.pack()
+
 
 send_button = ttk.Button(
     root,
     text='Send',
-    padding=20,
     command=send
 )
 send_button.pack()
