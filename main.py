@@ -1,5 +1,9 @@
+import json
+import os
 import tkinter as tk
 from tkinter import ttk
+
+JSON_FILE_PATH = 'luxuriant.json'
 
 root = tk.Tk()
 root.title('Welcome to Luxuriant')
@@ -93,6 +97,31 @@ def clear_fields():
     ants_num.set(0)
 
 
+def write_to_json():
+    data = {
+        "name": name.get(),
+        "address": address.get(),
+        "selected ant": selected_ant.get(),
+        "selected tuxedo": int(selected_tux.get()[0]),
+        "ants number": int(ants_num.get())
+    }
+    
+    a = []
+    if not os.path.isfile(JSON_FILE_PATH):
+        a.append(data)
+        with open(JSON_FILE_PATH, mode='w') as f:
+            f.write(json.dumps(a, indent=4))
+    else:
+        with open(JSON_FILE_PATH) as feedsjson:
+            feeds = json.load(feedsjson)
+        
+        feeds.append(data)
+        with open(JSON_FILE_PATH, mode='w') as f:
+            f.write(json.dumps(feeds, indent=4))
+
+    clear_fields()
+
+
 # check if all fields are filled
 def check_fields():
     if not (name.get() and address.get() and selected_ant.get() and selected_tux.get() and ants_num.get()):
@@ -109,12 +138,13 @@ success_label = ttk.Label(root, text="You are successfully registered!")
 # otherwise, an error message is shown
 def send():
     message = check_fields()
+
     if message:
         message_label['text'] = message
         message_label.pack()
     else:
         message_label['text'] = "You are successfully registered!"
-        clear_fields()
+        write_to_json()
         message_label.pack()
 
 
