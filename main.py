@@ -53,6 +53,7 @@ def write_to_json():
 
 def check_fields():
     """check if all fields are filled and valid, return error message if not"""
+    
     if not (name.get() and address.get() and selected_ant.get() and selected_tux.get() and ants_num.get()):
         return (False, "Please fill out all entries")
     if not ants_num.get().isnumeric():
@@ -67,6 +68,7 @@ def send():
     if all fields are valid, the data is saved and a success message is shown
     otherwise, an error message is shown
     """
+
     (is_valid, error_message) = check_fields()
 
     if not is_valid[0]:
