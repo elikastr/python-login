@@ -5,6 +5,7 @@ from tkinter import ttk
 
 
 JSON_FILE_PATH = 'luxuriant.json'
+ASSESTS_DIR_PATH = './assets'
 
 root = tk.Tk()
 
@@ -90,7 +91,7 @@ def main():
     root.resizable(False, False)
 
     # logo
-    logo_img = tk.PhotoImage(file='./assets/logo.png')
+    logo_img = tk.PhotoImage(file=f'{ASSESTS_DIR_PATH}/logo.png')
     logo_label = ttk.Label(
         root,
         image=logo_img,
@@ -117,10 +118,10 @@ def main():
             'black',
             'carpenter', 
             'fire']
-    ant_imgs = [tk.PhotoImage(file='./assets/argentine.png'),
-                tk.PhotoImage(file='./assets/black.png'),
-                tk.PhotoImage(file='./assets/carpenter.png'),
-                tk.PhotoImage(file='./assets/fire.png')]
+    ant_imgs = [tk.PhotoImage(file=f'{ASSESTS_DIR_PATH}/argentine.png'),
+                tk.PhotoImage(file=f'{ASSESTS_DIR_PATH}/black.png'),
+                tk.PhotoImage(file=f'{ASSESTS_DIR_PATH}/carpenter.png'),
+                tk.PhotoImage(file=f'{ASSESTS_DIR_PATH}/fire.png')]
 
     radio_frame = ttk.Frame(root)
     radio_frame.pack()
