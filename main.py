@@ -51,24 +51,26 @@ def write_to_json():
     clear_fields()
 
 
-# check if all fields are filled and valid, return error message if not
 def check_fields():
+    """check if all fields are filled and valid, return error message if not"""
     if not (name.get() and address.get() and selected_ant.get() and selected_tux.get() and ants_num.get()):
-        return "Please fill out all entries"
+        return (False, "Please fill out all entries")
     if not ants_num.get().isnumeric():
-        return "Invalid ant number chosen"
-    return ""
+        return (False, "Invalid ant number chosen")
+    return (True, None)
 
 
 message_label = ttk.Label(root)
 
-# if all fields are valid, the data is saved and a success message is shown
-# otherwise, an error message is shown
 def send():
-    message = check_fields()
+    """
+    if all fields are valid, the data is saved and a success message is shown
+    otherwise, an error message is shown
+    """
+    (is_valid, error_message) = check_fields()
 
-    if message:
-        message_label['text'] = message
+    if not is_valid[0]:
+        message_label['text'] = error_message
         message_label.pack()
     else:
         message_label['text'] = "You are successfully registered!"
